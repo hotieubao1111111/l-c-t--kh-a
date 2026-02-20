@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CP10DTU PRO - Ultimate Text File Processor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #f3f3f3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            color: #fff;
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px 10px 0 0;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .tab-btn.active {
+            background: #fff;
+            color: #764ba2;
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            background: #fff;
+            border-radius: 0 10px 10px 10px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            min-height: 600px;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 5px solid #764ba2;
+        }
+
+        .section h2 {
+            color: #333;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2 i {
+            color: #764ba2;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .form-control {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #764ba2;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #764ba2;
+            color: #fff;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-primary {
+            background: #764ba2;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .btn-info {
+            background: #17a2b8;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        /* File List */
+        .file-list {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .file-item {
+            padding: 8px 12px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-item .filename {
+            font-family: monospace;
+            color: #333;
+        }
+
+        .file-item .file-info {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .file-item .remove-file {
+            color: #dc3545;
+            cursor: pointer;
+            padding: 0 5px;
+        }
+
+        /* Checkbox Group */
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #764ba2, #667eea);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Status */
+        .status {
+            padding: 10px;
+            border-radius: 8px;
+            background: #e8f5e9;
+            color: #28a745;
+            font-weight: 500;
+            margin-top: 15px;
+        }
+
+        .status.error {
+            background: #ffebee;
+            color: #dc3545;
+        }
+
+        /* Stats */
+        .stats {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px;
+            border-radius: 8px;
+            color: #fff;
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        /* Preview Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 80vh;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            background: #764ba2;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            max-height: calc(80vh - 120px);
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            text-align: right;
+        }
+
+        .preview-content {
+            font-family: monospace;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: slideIn 0.5s ease;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>CP10DTU PRO ULTIMATE</h1>
+            <p>Advanced Text File Processor - Merge, Filter & Clean</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('processing')">
+                <i class="fas fa-file-alt"></i> FILE PROCESSING
+            </button>
+            <button class="tab-btn" onclick="switchTab('merge')">
+                <i class="fas fa-link"></i> MERGE FILES
+            </button>
+        </div>
+
+        <div class="tab-content">
+            <!-- Tab Processing -->
+            <div id="processing-tab" class="tab-pane active">
+                <!-- File Selection Section -->
+                <div class="section">
+                    <h2><i class="fas fa-folder-open"></i> SELECT INPUT FILES</h2>
+                    <div class="form-row">
+                        <input type="file" id="fileInput" multiple accept=".txt" class="form-control" onchange="handleFileSelect(event)">
+                        <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                            <i class="fas fa-search"></i> BROWSE FILES
+                        </button>
+                    </div>
+                    <div id="fileList" class="file-list"></div>
+                    <div id="fileCounter" class="status" style="margin-top: 10px;">
+                        <i class="fas fa-info-circle"></i> No files selected
+                    </div>
+                </div>
+
+                <!-- Search Section -->
+                <div class="section">
+                    <h2><i class="fas fa-search"></i> SEARCH KEYWORD</h2>
+                    <div class="form-row">
+                        <input type="text" id="searchKeyword" class="form-control" placeholder="Enter keyword to search...">
+                        <button class="btn btn-primary" onclick="searchKeyword()">
+                            <i class="fas fa-search"></i> FIND
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Delete Section -->
+                <div class="section">
+                    <h2><i class="fas fa-trash-alt"></i> DELETE LINES WITH KEYWORD</h2>
+                    <div class="form-row">
+                        <input type="text" id="deleteKeyword" class="form-control" placeholder="Enter keyword to delete...">
+                        <button class="btn btn-danger" onclick="deleteKeyword()">
+                            <i class="fas fa-trash"></i> DELETE
+                        </button>
+                    </div>
+                </div>
+
+                <!-- URL Remove Section -->
+                <div class="section">
+                    <h2><i class="fas fa-link"></i> REMOVE URL BUT KEEP USER:PASS</h2>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <input type="text" id="urlToRemove" class="form-control" placeholder="Enter URL to remove...">
+                            <button class="btn btn-danger" onclick="removeUrl()">
+                                <i class="fas fa-cut"></i> REMOVE URL
+                            </button>
+                        </div>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" id="exactMatch"> Exact URL Match
+                            </label>
+                            <label>
+                                <input type="checkbox" id="removeAllUrls"> Remove ALL URLs
+                            </label>
+                            <label>
+                                <input type="checkbox" id="smartHandling" checked> Smart URL Handling
+                            </label>
+                        </div>
+                        <small style="color: #666;">Format: url:username:password → username:password</small>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="section">
+                    <h2><i class="fas fa-bolt"></i> QUICK ACTIONS</h2>
+                    <div class="form-row">
+                        <button class="btn btn-warning" onclick="removeAllUrls()">
+                            <i class="fas fa-globe"></i> REMOVE ALL URLs
+                        </button>
+                        <button class="btn btn-info" onclick="removeDuplicates()">
+                            <i class="fas fa-copy"></i> REMOVE DUPLICATES
+                        </button>
+                        <button class="btn btn-success" onclick="sortLines()">
+                            <i class="fas fa-sort-alpha-down"></i> SORT LINES
+                        </button>
+                        <button class="btn btn-secondary" onclick="countLines()">
+                            <i class="fas fa-calculator"></i> COUNT LINES
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progress -->
+                <div class="progress-bar">
+                    <div id="progress" class="progress-fill"></div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="form-row">
+                    <button class="btn btn-info" onclick="previewFile()">
+                        <i class="fas fa-eye"></i> PREVIEW
+                    </button>
+                    <button class="btn btn-success" onclick="downloadOutput()" id="downloadBtn" disabled>
+                        <i class="fas fa-download"></i> DOWNLOAD OUTPUT
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearAll()">
+                        <i class="fas fa-broom"></i> CLEAR ALL
+                    </button>
+                </div>
+
+                <div id="status" class="status">
+                    <i class="fas fa-check-circle"></i> Ready
+                </div>
+            </div>
+
+            <!-- Tab Merge -->
+            <div id="merge-tab" class="tab-pane">
+                <!-- Stats -->
+                <div class="stats">
+                    <div class="stat-item">
+                        <div id="fileCount" class="stat-value">0</div>
+                        <div class="stat-label">Files</div>
+                    </div>
+                    <div class="stat-item">
+                        <div id="totalLines" class="stat-value">0</div>
+                        <div class="stat-label">Total Lines</div>
+                    </div>
+                </div>
+
+                <!-- File List -->
+                <div class="section">
+                    <h2><i class="fas fa-list"></i> SELECTED FILES TO MERGE</h2>
+                    <div id="mergeFileList" class="file-list"></div>
+                </div>
+
+                <!-- Selection Buttons -->
+                <div class="form-row">
+                    <button class="btn btn-primary" onclick="selectFilesForMerge()">
+                        <i class="fas fa-file"></i> SELECT FILES
+                    </button>
+                    <button class="btn btn-warning" onclick="selectFolderForMerge()">
+                        <i class="fas fa-folder"></i> SELECT FOLDER
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearMergeList()">
+                        <i class="fas fa-times"></i> CLEAR LIST
+                    </button>
+                </div>
+
+                <!-- Merge Options -->
+                <div class="section">
+                    <h2><i class="fas fa-cog"></i> MERGE OPTIONS</h2>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" id="mergeRemoveDuplicates" checked> Remove Duplicates
+                        </label>
+                        <label>
+                            <input type="checkbox" id="mergeSortLines"> Sort Lines Alphabetically
+                        </label>
+                        <label>
+                            <input type="checkbox" id="mergeRemoveEmpty" checked> Remove Empty Lines
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Merge Button -->
+                <button class="btn btn-success" style="width: 100%; padding: 15px;" onclick="mergeFiles()">
+                    <i class="fas fa-code-branch"></i> MERGE SELECTED FILES
+                </button>
+
+                <div id="mergeStatus" class="status" style="margin-top: 15px;">
+                    <i class="fas fa-info-circle"></i> Ready to merge files
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="previewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-alt"></i> File Preview</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <pre id="previewContent" class="preview-content"></pre>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let selectedFiles = [];
+        let outputPath = '';
+        let currentTab = 'processing';
+
+        // File handling
+        function handleFileSelect(event) {
+            const files = Array.from(event.target.files);
+            selectedFiles = files;
+            updateFileList();
+            updateFileCounter();
+        }
+
+        function updateFileList() {
+            const fileListDiv = document.getElementById('fileList');
+            fileListDiv.innerHTML = '';
+
+            selectedFiles.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <div>
+                        <span class="filename">${file.name}</span>
+                        <span class="file-info">(${(file.size / 1024).toFixed(2)} KB)</span>
+                    </div>
+                    <span class="remove-file" onclick="removeFile(${index})">
+                        <i class="fas fa-times"></i>
+                    </span>
+                `;
+                fileListDiv.appendChild(fileItem);
+            });
+        }
+
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            updateFileList();
+            updateFileCounter();
+        }
+
+        function updateFileCounter() {
+            const counterDiv = document.getElementById('fileCounter');
+            if (selectedFiles.length === 0) {
+                counterDiv.innerHTML = '<i class="fas fa-info-circle"></i> No files selected';
+            } else if (selectedFiles.length === 1) {
+                counterDiv.innerHTML = `<i class="fas fa-info-circle"></i> 1 file selected: ${selectedFiles[0].name}`;
+            } else {
+                const totalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0) / 1024;
+                counterDiv.innerHTML = `<i class="fas fa-info-circle"></i> ${selectedFiles.length} files selected | Total: ${totalSize.toFixed(2)} KB`;
+            }
+        }
+
+        // Processing functions
+        async function searchKeyword() {
+            const keyword = document.getElementById('searchKeyword').value;
+            if (!selectedFiles.length) {
+                showStatus('Please select files first!', 'error');
+                return;
+            }
+            if (!keyword) {
+                showStatus('Please enter a keyword to search!', 'error');
+                return;
+            }
+
+            setButtonsEnabled(false);
+            showProgress(true);
+
+            try {
+                const results = [];
+                for (const file of selectedFiles) {
+                    const text = await readFile(file);
+                    const lines = text.split('\n');
+                    const matches = lines.filter(line => 
+                        line.toLowerCase().includes(keyword.toLowerCase())
+                    );
+                    results.push(...matches);
+                }
+
+                if (results.length > 0) {
+                    const output = results.join('\n');
+                    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                    const filename = `found_${keyword}_${timestamp}.txt`;
+                    
+                    downloadFile(output, filename);
+                    outputPath = filename;
+                    
+                    showStatus(`✓ Found ${results.length} lines!`, 'success');
+                } else {
+                    showStatus('No lines found containing the keyword.', 'error');
+                }
+            } catch (error) {
+                showStatus('Error: ' + error.message, 'error');
+            } finally {
+                setButtonsEnabled(true);
+                showProgress(false);
+            }
+        }
+
+        async function deleteKeyword() {
+            const keyword = document.getElementById('deleteKeyword').value;
+            if (!selectedFiles.length) {
+                showStatus('Please select files first!', 'error');
+                return;
+            }
+            if (!keyword) {
+                showStatus('Please enter a keyword to delete!', 'error');
+                return;
+            }
+
+            setButtonsEnabled(false);
+            showProgress(true);
+
+            try {
+                let totalRemoved = 0;
+                
+                for (const file of selectedFiles) {
+                    const text = await readFile(file);
+                    const lines = text.split('\n');
+                    const filtered = lines.filter(line => 
+                        !line.toLowerCase().includes(keyword.toLowerCase())
+                    );
+                    totalRemoved += lines.length - filtered.length;
+                    
+                    const output = filtered.join('\n');
+                    const filename = `cleaned_${file.name}`;
+                    
+                    downloadFile(output, filename);
+                }
+
+                showStatus(`✓ Removed ${totalRemoved} lines`, 'success');
+            } catch (error) {
+                showStatus('Error: ' + error.message, 'error');
+            } finally {
+                setButtonsEnabled(true);
+                showProgress(false);
+            }
+        }
+
+        async function removeUrl() {
+            if (!selectedFiles.length) {
+                showStatus('Please select files first!', 'error');
+                return;
+            }
+
+            const removeAll = document.getElementById('removeAllUrls').checked;
+            const exactMatch = document.getElementById('exactMatch').checked;
+            const smartHandling = document.getElementById('smartHandling').checked;
+            const urlToRemove = document.getElementById('urlToRemove').value;
+
+            if (!removeAll && !urlToRemove) {
+                showStatus('Please enter a URL to remove or select "Remove ALL URLs"!', 'error');
+                return;
+            }
+
+            setButtonsEnabled(false);
+            showProgress(true);
+
+            try {
+                let totalChanged = 0;
+                
+                for (const file of selectedFiles) {
+                    const text = await readFile(file);
+                    const lines = text.split('\n');
+                    const processed = lines.map(line => {
+                        const parts = line.split(':');
+                        if (parts.length >= 3) {
+                            const url = parts[0];
+                            const credentials = parts.slice(1).join(':');
+                            
+                            if (removeAll) {
+                                totalChanged++;
+                                return credentials;
+                            } else {
+                                let shouldRemove = false;
+                                
+                                if (exactMatch) {
+                                    shouldRemove = url === urlToRemove;
+                                } else if (smartHandling) {
+                                    const urlVariations = generateUrlVariations(urlToRemove);
+                                    shouldRemove = urlVariations.some(v => url.includes(v) || v.includes(url));
+                                } else {
+                                    shouldRemove = url.includes(urlToRemove) || urlToRemove.includes(url);
+                                }
+                                
+                                if (shouldRemove) {
+                                    totalChanged++;
+                                    return credentials;
+                                }
+                            }
+                        }
+                        return line;
+                    });
+                    
+                    const output = processed.join('\n');
+                    const prefix = removeAll ? 'credentials_only' : `removed_${urlToRemove.substring(0, 20)}`;
+                    const filename = `${prefix}_${file.name}`;
+                    
+                    downloadFile(output, filename);
+                }
+
+                showStatus(`✓ Changed ${totalChanged} lines`, 'success');
+            } catch (error) {
+                showStatus('Error: ' + error.message, 'error');
+            } finally {
+                setButtonsEnabled(true);
+                showProgress(false);
+            }
+        }
+
+        function generateUrlVariations(url) {
+            const variations = new Set();
+            variations.add(url);
+
+            // Add variations with/without protocol
+            if (url.startsWith('http://')) {
+                variations.add(url.substring(7));
+                variations.add('//' + url.substring(7));
+            } else if (url.startsWith('https://')) {
+                variations.add(url.substring(8));
+                variations.add('//' + url.substring(8));
+            }
+
+            if (!url.startsWith('http')) {
+                variations.add('http://' + url);
+                variations.add('https://' + url);
+                variations.add('//' + url);
+            }
+
+            // Add variations with/without www
+            if (url.includes('www.')) {
+                variations.add(url.replace('www.', ''));
+            } else if (!url.startsWith('www.')) {
+                variations.add('www.' + url.replace(/^https?:\/\//, ''));
+            }
+
+            // Add variations with/without trailing slash
+            if (url.endsWith('/')) {
+                variations.add(url.slice(0, -1));
+            } else {
+                variations.add(url + '/');
+            }
+
+            return Array.from(variations);
+        }
+
+        async function removeAllUrls() {
+            document.getElementById('removeAllUrls').checked = true;
+            document.getElementById('exactMatch').checked = false;
+            document.getElementById('urlToRemove').value = '';
+            await removeUrl();
+        }
+
+        async function removeDuplicates() {
+            if (!selectedFiles.length) {
+                showStatus('Please select files first!', 'error');
+                return;
+            }
+
+            setButtonsEnabled(false);
+            showProgress(true);
+
+            try {
+                let totalRemoved = 0;
+                
+                for (const file of selectedFiles) {
+                    const text = await readFile(file);
+                    const lines = text.split('\n');
+                    const seen = new Set();
+                    const unique = [];
+                    
+                    for (const line of lines) {
+                        const trimmed = line.trim();
+                        if (trimmed && !seen.has(trimmed)) {
+                            seen.add(trimmed);
+                            unique.push(line);
+                        } else if (trimmed) {
+                            totalRemoved++;
+                        }
+                    }
+                    
+                    const output = unique.join('\n');
+                    const filename = `deduplicated_${file.name}`;
+                    
+                    downloadFile(output, filename);
+                }
+
+                showStatus(`✓ Removed ${totalRemoved} duplicates`, 'success');
+            } catch (error) {
+                showStatus('Error: ' + error.message, 'error');
+            } finally {
+                setButtonsEnabled(true);
+                showProgress(false);
+            }
+        }
+
+        async function sortLines() {
+            if (!selectedFiles.length) {
+                showStatus('Please select files first!', 'error');
+                return;
+            }
+
+            setButtonsEnabled(false);
+            showProgress(true);
+
+            try {
+                for (const file of selectedFiles) {
+                    const text = await readFile(file);
+                    const lines = text.split('\n')
+                        .map(line => line.trim())
+                        .filter(line => line.length > 0)
+                        .sort();
+                    
+                    const output = lines.join('\n');
+                    const filename = `sorted_${file.name}`;
+                    
+                    downloadFile(output, filename);
+                }
+
+                showStatus('✓ Files sorted successfully', 'success');
+            } catch (error) {
+                showStatus('Error: ' + error.message, 'error');
+            } finally {
+                setButtonsEnabled(true);
+                showProgress(false);
+            }
+        }
+
+        async function countLines() {
+            if (!selectedFiles.length) {
+                showStatus('Please select files first!', 'error');
+                return;
+            }
+
+            try {
+                let totalLines = 0;
+                
+                for (const file of selectedFiles) {
+                    const text = await readFile(file);
+                    const lines = text.split('\n').filter(line => line.trim().length > 0);
+                    totalLines += lines.length;
+                }
+
+                const avg = Math.round(totalLines / selectedFiles.length);
+                
+                showStatus(
+                    `📊 Total files: ${selectedFiles.length} | Total lines: ${totalLines} | Average: ${avg}`,
+                    'success'
+                );
+            } catch (error) {
+                showStatus('Error: ' + error.message, 'error');
+            }
+        }
+
+        async function previewFile() {
+            if (!selectedFiles.length) {
+                showStatus('Please select a file first!', 'error');
+                return;
+            }
+
+            try {
+                const file = selectedFiles[0];
+                const text = await readFile(file);
+                const lines = text.split('\n').slice(0, 100);
+                const preview = lines.map((line, i) => `${(i+1).toString().padStart(6)}: ${line}`).join('\n');
+                
+                document.getElementById('previewContent').textContent = preview;
+                document.getElementById('previewModal').classList.add('active');
+                
+                showStatus(`Showing first 100 of ${text.split('\n').length} lines`, 'success');
+            } catch (error) {
+                showStatus('Error: ' + error.message, 'error');
+            }
+        }
+
+        // Merge functions
+        function selectFilesForMerge() {
+            document.getElementById('fileInput').click();
+        }
+
+        function selectFolderForMerge() {
+            // Simulate folder selection by allowing multiple file selection
+            document.getElementById('fileInput').click();
+        }
+
+        function clearMergeList() {
+            selectedFiles = [];
+            document.getElementById('mergeFileList').innerHTML = '';
+            document.getElementById('fileCount').textContent = '0';
+            document.getElementById('totalLines').textContent = '0';
+            updateMergeStatus('File list cleared');
+        }
+
+        function updateMergeFileList() {
+            const listDiv = document.getElementById('mergeFileList');
+            listDiv.innerHTML = '';
+
+            selectedFiles.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <span class="filename">${file.name}</span>
+                    <span class="file-info">(${(file.size / 1024).toFixed(2)} KB)</span>
+                `;
+                listDiv.appendChild(fileItem);
+            });
+        }
+
+        async function mergeFiles() {
+            if (selectedFiles.length < 2) {
+                updateMergeStatus('Please select at least 2 files to merge!', 'error');
+                return;
+            }
+
+            setButtonsEnabled(false);
+            showProgress(true);
+
+            try {
+                const removeDuplicates = document.getElementById('mergeRemoveDuplicates').checked;
+                const sortLines = document.getElementById('mergeSortLines').checked;
+                const removeEmpty = document.getElementById('mergeRemoveEmpty').checked;
+
+                let allLines = removeDuplicates ? new Set() : [];
+                let totalRead = 0;
+
+                for (const file of selectedFiles) {
+                    const text = await readFile(file);
+                    const lines = text.split('\n');
+                    
+                    for (const line of lines) {
+                        const trimmed = line.trim();
+                        
+                        if (removeEmpty && !trimmed) {
+                            continue;
+                        }
+                        
+                        if (removeDuplicates) {
+                            if (trimmed) {
+                                allLines.add(trimmed);
+                            }
+                        } else {
+                            allLines.push(trimmed || line);
+                        }
+                    }
+                    
+                    totalRead += lines.length;
+                }
+
+                let merged = removeDuplicates ? Array.from(allLines) : allLines;
+                
+                if (sortLines) {
+                    merged.sort();
+                }
+
+                const output = merged.join('\n');
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                const filename = `merged_${timestamp}.txt`;
+                
+                downloadFile(output, filename);
+
+                const duplicatesRemoved = removeDuplicates ? totalRead - merged.length : 0;
+                
+                updateMergeStatus(
+                    `✓ Merged ${selectedFiles.length} files into ${merged.length} lines (${duplicatesRemoved} duplicates removed)`,
+                    'success'
+                );
+                
+                document.getElementById('totalLines').textContent = merged.length;
+            } catch (error) {
+                updateMergeStatus('Error: ' + error.message, 'error');
+            } finally {
+                setButtonsEnabled(true);
+                showProgress(false);
+            }
+        }
+
+        // Utility functions
+        function readFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = e => resolve(e.target.result);
+                reader.onerror = e => reject(e.target.error);
+                reader.readAsText(file);
+            });
+        }
+
+        function downloadFile(content, filename) {
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            document.getElementById('downloadBtn').disabled = false;
+        }
+
+        function downloadOutput() {
+            // This function is triggered by the download button
+            // The actual download happens in the processing functions
+            showStatus('Files have been downloaded', 'success');
+        }
+
+        function clearAll() {
+            document.getElementById('searchKeyword').value = '';
+            document.getElementById('deleteKeyword').value = '';
+            document.getElementById('urlToRemove').value = '';
+            document.getElementById('exactMatch').checked = false;
+            document.getElementById('removeAllUrls').checked = false;
+            document.getElementById('smartHandling').checked = true;
+            selectedFiles = [];
+            document.getElementById('fileList').innerHTML = '';
+            updateFileCounter();
+            showStatus('All fields cleared');
+        }
+
+        function closeModal() {
+            document.getElementById('previewModal').classList.remove('active');
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach((btn, index) => {
+                if (index === 0 && tab === 'processing') {
+                    btn.classList.add('active');
+                } else if (index === 1 && tab === 'merge') {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Update tab content
+            document.getElementById('processing-tab').classList.toggle('active', tab === 'processing');
+            document.getElementById('merge-tab').classList.toggle('active', tab === 'merge');
+        }
+
+        function showStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('status');
+            const icon = type === 'error' ? 'exclamation-circle' : 
+                        type === 'success' ? 'check-circle' : 'info-circle';
+            
+            statusDiv.innerHTML = `<i class="fas fa-${icon}"></i> ${message}`;
+            statusDiv.className = `status ${type}`;
+        }
+
+        function updateMergeStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('mergeStatus');
+            const icon = type === 'error' ? 'exclamation-circle' : 
+                        type === 'success' ? 'check-circle' : 'info-circle';
+            
+            statusDiv.innerHTML = `<i class="fas fa-${icon}"></i> ${message}`;
+            statusDiv.className = `status ${type}`;
+        }
+
+        function setButtonsEnabled(enabled) {
+            const buttons = document.querySelectorAll('.btn:not([disabled])');
+            buttons.forEach(btn => {
+                btn.disabled = !enabled;
+            });
+        }
+
+        function showProgress(show) {
+            const progressBar = document.getElementById('progress');
+            if (show) {
+                progressBar.style.width = '50%';
+                setTimeout(() => {
+                    progressBar.style.width = '75%';
+                }, 500);
+            } else {
+                progressBar.style.width = '100%';
+                setTimeout(() => {
+                    progressBar.style.width = '0%';
+                }, 500);
+            }
+        }
+
+        // Event listeners
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            if (currentTab === 'merge') {
+                selectedFiles = Array.from(e.target.files);
+                updateMergeFileList();
+                
+                // Update stats
+                document.getElementById('fileCount').textContent = selectedFiles.length;
+                
+                // Count total lines
+                let total = 0;
+                selectedFiles.forEach(file => {
+                    readFile(file).then(text => {
+                        total += text.split('\n').length;
+                        document.getElementById('totalLines').textContent = total;
+                    });
+                });
+            }
+        });
+
+        document.getElementById('removeAllUrls').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('exactMatch').checked = false;
+                document.getElementById('urlToRemove').value = '';
+                document.getElementById('urlToRemove').disabled = true;
+            } else {
+                document.getElementById('urlToRemove').disabled = false;
+            }
+        });
+
+        document.getElementById('exactMatch').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('removeAllUrls').checked = false;
+                document.getElementById('urlToRemove').disabled = false;
+            }
+        });
+
+        // Initialize
+        document.getElementById('downloadBtn').disabled = true;
+    </script>
+</body>
+</html>
