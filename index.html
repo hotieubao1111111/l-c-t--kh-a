@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CP10DTU PRO - Ultimate Text File Processor</title>
+    <title>CP10DTU PRO - Ultimate Text Processor</title>
     <style>
         * {
             margin: 0;
@@ -23,7 +23,6 @@
             margin: 0 auto;
         }
 
-        /* Header */
         .header {
             text-align: center;
             margin-bottom: 30px;
@@ -46,11 +45,11 @@
             margin-top: 5px;
         }
 
-        /* Tabs */
         .tabs {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .tab-btn {
@@ -64,6 +63,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             flex: 1;
+            min-width: 200px;
         }
 
         .tab-btn.active {
@@ -75,7 +75,6 @@
             background: rgba(255,255,255,0.2);
         }
 
-        /* Tab Content */
         .tab-content {
             background: #fff;
             border-radius: 0 10px 10px 10px;
@@ -92,7 +91,6 @@
             display: block;
         }
 
-        /* Sections */
         .section {
             margin-bottom: 30px;
             background: #f8f9fa;
@@ -114,7 +112,6 @@
             color: #764ba2;
         }
 
-        /* Forms */
         .form-group {
             margin-bottom: 15px;
         }
@@ -133,6 +130,7 @@
             border-radius: 8px;
             font-size: 1em;
             transition: all 0.3s ease;
+            min-width: 200px;
         }
 
         .form-control:focus {
@@ -141,7 +139,6 @@
             box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
         }
 
-        /* Buttons */
         .btn {
             padding: 12px 25px;
             border: none;
@@ -168,32 +165,13 @@
             transform: none;
         }
 
-        .btn-primary {
-            background: #764ba2;
-        }
+        .btn-primary { background: #764ba2; }
+        .btn-success { background: #28a745; }
+        .btn-danger { background: #dc3545; }
+        .btn-warning { background: #ffc107; color: #333; }
+        .btn-info { background: #17a2b8; }
+        .btn-secondary { background: #6c757d; }
 
-        .btn-success {
-            background: #28a745;
-        }
-
-        .btn-danger {
-            background: #dc3545;
-        }
-
-        .btn-warning {
-            background: #ffc107;
-            color: #333;
-        }
-
-        .btn-info {
-            background: #17a2b8;
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-        }
-
-        /* File List */
         .file-list {
             background: #fff;
             border: 2px solid #e0e0e0;
@@ -229,7 +207,6 @@
             padding: 0 5px;
         }
 
-        /* Checkbox Group */
         .checkbox-group {
             display: flex;
             gap: 20px;
@@ -244,7 +221,20 @@
             cursor: pointer;
         }
 
-        /* Progress Bar */
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
         .progress-bar {
             width: 100%;
             height: 30px;
@@ -261,7 +251,6 @@
             transition: width 0.3s ease;
         }
 
-        /* Status */
         .status {
             padding: 10px;
             border-radius: 8px;
@@ -276,7 +265,6 @@
             color: #dc3545;
         }
 
-        /* Stats */
         .stats {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 15px;
@@ -285,10 +273,12 @@
             display: flex;
             justify-content: space-around;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .stat-item {
             text-align: center;
+            min-width: 150px;
         }
 
         .stat-value {
@@ -301,7 +291,6 @@
             opacity: 0.9;
         }
 
-        /* Preview Modal */
         .modal {
             display: none;
             position: fixed;
@@ -363,7 +352,6 @@
             cursor: pointer;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2em;
@@ -380,9 +368,12 @@
             .btn {
                 width: 100%;
             }
+
+            .stat-item {
+                min-width: 100px;
+            }
         }
 
-        /* Animations */
         @keyframes slideIn {
             from {
                 opacity: 0;
@@ -398,7 +389,6 @@
             animation: slideIn 0.5s ease;
         }
 
-        /* Loading Spinner */
         .spinner {
             display: inline-block;
             width: 20px;
@@ -413,33 +403,34 @@
             to { transform: rotate(360deg); }
         }
     </style>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>CP10DTU PRO ULTIMATE</h1>
-            <p>Advanced Text File Processor - Merge, Filter & Clean</p>
+            <p>Text File Processor - Extract, Edit, Filter & Clean</p>
         </div>
 
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('processing')">
-                <i class="fas fa-file-alt"></i> FILE PROCESSING
+            <button class="tab-btn active" onclick="switchTab('processor')">
+                <i class="fas fa-cogs"></i> FILE PROCESSOR
             </button>
-            <button class="tab-btn" onclick="switchTab('merge')">
-                <i class="fas fa-link"></i> MERGE FILES
+            <button class="tab-btn" onclick="switchTab('extract')">
+                <i class="fas fa-database"></i> EXTRACT CREDENTIALS
+            </button>
+            <button class="tab-btn" onclick="switchTab('edit')">
+                <i class="fas fa-edit"></i> EDIT PASSWORDS
             </button>
         </div>
 
         <div class="tab-content">
-            <!-- Tab Processing -->
-            <div id="processing-tab" class="tab-pane active">
-                <!-- File Selection Section -->
+            <!-- Tab 1: File Processor (Original) -->
+            <div id="processor-tab" class="tab-pane active">
                 <div class="section">
                     <h2><i class="fas fa-folder-open"></i> SELECT INPUT FILES</h2>
                     <div class="form-row">
-                        <input type="file" id="fileInput" multiple accept=".txt" class="form-control" onchange="handleFileSelect(event)">
+                        <input type="file" id="fileInput" multiple accept=".txt" class="form-control" onchange="handleFileSelect(event, 'processor')">
                         <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
                             <i class="fas fa-search"></i> BROWSE FILES
                         </button>
@@ -450,7 +441,6 @@
                     </div>
                 </div>
 
-                <!-- Search Section -->
                 <div class="section">
                     <h2><i class="fas fa-search"></i> SEARCH KEYWORD</h2>
                     <div class="form-row">
@@ -461,7 +451,6 @@
                     </div>
                 </div>
 
-                <!-- Delete Section -->
                 <div class="section">
                     <h2><i class="fas fa-trash-alt"></i> DELETE LINES WITH KEYWORD</h2>
                     <div class="form-row">
@@ -472,7 +461,6 @@
                     </div>
                 </div>
 
-                <!-- URL Remove Section -->
                 <div class="section">
                     <h2><i class="fas fa-link"></i> REMOVE URL BUT KEEP USER:PASS</h2>
                     <div class="form-group">
@@ -483,21 +471,14 @@
                             </button>
                         </div>
                         <div class="checkbox-group">
-                            <label>
-                                <input type="checkbox" id="exactMatch"> Exact URL Match
-                            </label>
-                            <label>
-                                <input type="checkbox" id="removeAllUrls"> Remove ALL URLs
-                            </label>
-                            <label>
-                                <input type="checkbox" id="smartHandling" checked> Smart URL Handling
-                            </label>
+                            <label><input type="checkbox" id="exactMatch"> Exact URL Match</label>
+                            <label><input type="checkbox" id="removeAllUrls"> Remove ALL URLs</label>
+                            <label><input type="checkbox" id="smartHandling" checked> Smart URL Handling</label>
                         </div>
                         <small style="color: #666;">Format: url:username:password → username:password</small>
                     </div>
                 </div>
 
-                <!-- Quick Actions -->
                 <div class="section">
                     <h2><i class="fas fa-bolt"></i> QUICK ACTIONS</h2>
                     <div class="form-row">
@@ -516,12 +497,10 @@
                     </div>
                 </div>
 
-                <!-- Progress -->
                 <div class="progress-bar">
                     <div id="progress" class="progress-fill"></div>
                 </div>
 
-                <!-- Action Buttons -->
                 <div class="form-row">
                     <button class="btn btn-info" onclick="previewFile()">
                         <i class="fas fa-eye"></i> PREVIEW
@@ -539,62 +518,129 @@
                 </div>
             </div>
 
-            <!-- Tab Merge -->
-            <div id="merge-tab" class="tab-pane">
-                <!-- Stats -->
+            <!-- Tab 2: Extract Credentials -->
+            <div id="extract-tab" class="tab-pane">
+                <div class="section">
+                    <h2><i class="fas fa-folder-open"></i> SELECT FILES TO EXTRACT</h2>
+                    <div class="form-row">
+                        <input type="file" id="extractFileInput" multiple accept=".txt" class="form-control" onchange="handleFileSelect(event, 'extract')">
+                        <button class="btn btn-primary" onclick="document.getElementById('extractFileInput').click()">
+                            <i class="fas fa-search"></i> BROWSE FILES
+                        </button>
+                    </div>
+                    <div id="extractFileList" class="file-list"></div>
+                    <div id="extractFileCounter" class="status" style="margin-top: 10px;">
+                        <i class="fas fa-info-circle"></i> No files selected
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2><i class="fas fa-cog"></i> EXTRACTION OPTIONS</h2>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" id="extractUrlTriplets" checked> Extract URL:user:pass</label>
+                        <label><input type="checkbox" id="extractHostTriplets" checked> Extract domain:user:pass</label>
+                        <label><input type="checkbox" id="extractInlinePairs" checked> Extract user:pass after URL</label>
+                        <label><input type="checkbox" id="removeDuplicates" checked> Remove duplicates</label>
+                        <label><input type="checkbox" id="filterGarena" checked> Filter Garena patterns</label>
+                    </div>
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label>Skip patterns (comma separated):</label>
+                        <input type="text" id="skipPatterns" class="form-control" value="auth.garena.com, garena.com, /oauth/login, login.garena, account.garena">
+                    </div>
+                </div>
+
                 <div class="stats">
                     <div class="stat-item">
-                        <div id="fileCount" class="stat-value">0</div>
-                        <div class="stat-label">Files</div>
+                        <div id="extractedCount" class="stat-value">0</div>
+                        <div class="stat-label">Extracted</div>
                     </div>
                     <div class="stat-item">
-                        <div id="totalLines" class="stat-value">0</div>
-                        <div class="stat-label">Total Lines</div>
+                        <div id="errorCount" class="stat-value">0</div>
+                        <div class="stat-label">Errors</div>
                     </div>
                 </div>
 
-                <!-- File List -->
-                <div class="section">
-                    <h2><i class="fas fa-list"></i> SELECTED FILES TO MERGE</h2>
-                    <div id="mergeFileList" class="file-list"></div>
-                </div>
-
-                <!-- Selection Buttons -->
-                <div class="form-row">
-                    <button class="btn btn-primary" onclick="selectFilesForMerge()">
-                        <i class="fas fa-file"></i> SELECT FILES
-                    </button>
-                    <button class="btn btn-warning" onclick="selectFolderForMerge()">
-                        <i class="fas fa-folder"></i> SELECT FOLDER
-                    </button>
-                    <button class="btn btn-secondary" onclick="clearMergeList()">
-                        <i class="fas fa-times"></i> CLEAR LIST
-                    </button>
-                </div>
-
-                <!-- Merge Options -->
-                <div class="section">
-                    <h2><i class="fas fa-cog"></i> MERGE OPTIONS</h2>
-                    <div class="checkbox-group">
-                        <label>
-                            <input type="checkbox" id="mergeRemoveDuplicates" checked> Remove Duplicates
-                        </label>
-                        <label>
-                            <input type="checkbox" id="mergeSortLines"> Sort Lines Alphabetically
-                        </label>
-                        <label>
-                            <input type="checkbox" id="mergeRemoveEmpty" checked> Remove Empty Lines
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Merge Button -->
-                <button class="btn btn-success" style="width: 100%; padding: 15px;" onclick="mergeFiles()">
-                    <i class="fas fa-code-branch"></i> MERGE SELECTED FILES
+                <button class="btn btn-success" style="width: 100%; padding: 15px;" onclick="extractCredentials()">
+                    <i class="fas fa-database"></i> EXTRACT CREDENTIALS
                 </button>
 
-                <div id="mergeStatus" class="status" style="margin-top: 15px;">
-                    <i class="fas fa-info-circle"></i> Ready to merge files
+                <div id="extractStatus" class="status" style="margin-top: 15px;">
+                    <i class="fas fa-info-circle"></i> Ready to extract
+                </div>
+            </div>
+
+            <!-- Tab 3: Edit Passwords -->
+            <div id="edit-tab" class="tab-pane">
+                <div class="section">
+                    <h2><i class="fas fa-folder-open"></i> SELECT FILES TO EDIT</h2>
+                    <div class="form-row">
+                        <input type="file" id="editFileInput" multiple accept=".txt" class="form-control" onchange="handleFileSelect(event, 'edit')">
+                        <button class="btn btn-primary" onclick="document.getElementById('editFileInput').click()">
+                            <i class="fas fa-search"></i> BROWSE FILES
+                        </button>
+                    </div>
+                    <div id="editFileList" class="file-list"></div>
+                    <div id="editFileCounter" class="status" style="margin-top: 10px;">
+                        <i class="fas fa-info-circle"></i> No files selected
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2><i class="fas fa-cog"></i> EDIT MODE</h2>
+                    <div class="radio-group">
+                        <label><input type="radio" name="editMode" value="standard" checked onchange="toggleEditMode()"> Standard Mode</label>
+                        <label><input type="radio" name="editMode" value="simple" onchange="toggleEditMode()"> Simple Mode (@123)</label>
+                        <label><input type="radio" name="editMode" value="userdigits" onchange="toggleEditMode()"> User Digits Mode</label>
+                        <label><input type="radio" name="editMode" value="limit4" onchange="toggleEditMode()"> Limit 4 Digits</label>
+                        <label><input type="radio" name="editMode" value="synthesis" onchange="toggleEditMode()"> Synthesis Mode</label>
+                        <label><input type="radio" name="editMode" value="profiled" onchange="toggleEditMode()"> Profiled Mode</label>
+                        <label><input type="radio" name="editMode" value="majority" onchange="toggleEditMode()"> Majority Mode</label>
+                    </div>
+                </div>
+
+                <div class="section" id="standardOptions">
+                    <h2><i class="fas fa-sliders-h"></i> STANDARD OPTIONS</h2>
+                    <div class="form-row">
+                        <div style="flex:1">
+                            <label>Delimiter:</label>
+                            <input type="text" id="delimiter" class="form-control" value=":" style="width: 60px">
+                        </div>
+                        <div style="flex:1">
+                            <label>Separator:</label>
+                            <input type="text" id="separator" class="form-control" value="@" style="width: 60px">
+                        </div>
+                        <div style="flex:1">
+                            <label>Max alnum length:</label>
+                            <input type="number" id="maxAlnum" class="form-control" value="35" min="1" style="width: 100px">
+                        </div>
+                    </div>
+                    <div class="radio-group" style="margin-top: 10px;">
+                        <label><input type="radio" name="separatorPos" value="end" checked> '@' at END</label>
+                        <label><input type="radio" name="separatorPos" value="middle"> '@' in MIDDLE</label>
+                    </div>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div id="processedCount" class="stat-value">0</div>
+                        <div class="stat-label">Processed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div id="editedCount" class="stat-value">0</div>
+                        <div class="stat-label">Edited</div>
+                    </div>
+                    <div class="stat-item">
+                        <div id="skippedCount" class="stat-value">0</div>
+                        <div class="stat-label">Skipped</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-success" style="width: 100%; padding: 15px;" onclick="editPasswords()">
+                    <i class="fas fa-edit"></i> EDIT PASSWORDS
+                </button>
+
+                <div id="editStatus" class="status" style="margin-top: 15px;">
+                    <i class="fas fa-info-circle"></i> Ready to edit
                 </div>
             </div>
         </div>
@@ -618,23 +664,36 @@
 
     <script>
         // Global variables
-        let selectedFiles = [];
-        let outputPath = '';
-        let currentTab = 'processing';
+        let selectedFiles = {
+            processor: [],
+            extract: [],
+            edit: []
+        };
+        let currentTab = 'processor';
+        let extractedData = {
+            credentials: new Set(),
+            errors: []
+        };
+        let editStats = {
+            processed: 0,
+            edited: 0,
+            skipped: 0
+        };
 
         // File handling
-        function handleFileSelect(event) {
+        function handleFileSelect(event, tab) {
             const files = Array.from(event.target.files);
-            selectedFiles = files;
-            updateFileList();
-            updateFileCounter();
+            selectedFiles[tab] = files;
+            updateFileList(tab);
+            updateFileCounter(tab);
         }
 
-        function updateFileList() {
-            const fileListDiv = document.getElementById('fileList');
-            fileListDiv.innerHTML = '';
+        function updateFileList(tab) {
+            const listDiv = document.getElementById(tab === 'processor' ? 'fileList' : 
+                                                   tab === 'extract' ? 'extractFileList' : 'editFileList');
+            listDiv.innerHTML = '';
 
-            selectedFiles.forEach((file, index) => {
+            selectedFiles[tab].forEach((file, index) => {
                 const fileItem = document.createElement('div');
                 fileItem.className = 'file-item';
                 fileItem.innerHTML = `
@@ -642,36 +701,111 @@
                         <span class="filename">${file.name}</span>
                         <span class="file-info">(${(file.size / 1024).toFixed(2)} KB)</span>
                     </div>
-                    <span class="remove-file" onclick="removeFile(${index})">
+                    <span class="remove-file" onclick="removeFile(${index}, '${tab}')">
                         <i class="fas fa-times"></i>
                     </span>
                 `;
-                fileListDiv.appendChild(fileItem);
+                listDiv.appendChild(fileItem);
             });
         }
 
-        function removeFile(index) {
-            selectedFiles.splice(index, 1);
-            updateFileList();
-            updateFileCounter();
+        function removeFile(index, tab) {
+            selectedFiles[tab].splice(index, 1);
+            updateFileList(tab);
+            updateFileCounter(tab);
         }
 
-        function updateFileCounter() {
-            const counterDiv = document.getElementById('fileCounter');
-            if (selectedFiles.length === 0) {
+        function updateFileCounter(tab) {
+            const counterDiv = document.getElementById(tab === 'processor' ? 'fileCounter' : 
+                                                      tab === 'extract' ? 'extractFileCounter' : 'editFileCounter');
+            const files = selectedFiles[tab];
+            
+            if (files.length === 0) {
                 counterDiv.innerHTML = '<i class="fas fa-info-circle"></i> No files selected';
-            } else if (selectedFiles.length === 1) {
-                counterDiv.innerHTML = `<i class="fas fa-info-circle"></i> 1 file selected: ${selectedFiles[0].name}`;
+            } else if (files.length === 1) {
+                counterDiv.innerHTML = `<i class="fas fa-info-circle"></i> 1 file selected: ${files[0].name}`;
             } else {
-                const totalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0) / 1024;
-                counterDiv.innerHTML = `<i class="fas fa-info-circle"></i> ${selectedFiles.length} files selected | Total: ${totalSize.toFixed(2)} KB`;
+                const totalSize = files.reduce((sum, file) => sum + file.size, 0) / 1024;
+                counterDiv.innerHTML = `<i class="fas fa-info-circle"></i> ${files.length} files selected | Total: ${totalSize.toFixed(2)} KB`;
             }
         }
 
-        // Processing functions
+        // Tab switching
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+            
+            if (tab === 'processor') {
+                document.querySelector('.tab-btn').classList.add('active');
+                document.getElementById('processor-tab').classList.add('active');
+            } else if (tab === 'extract') {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('extract-tab').classList.add('active');
+            } else if (tab === 'edit') {
+                document.querySelectorAll('.tab-btn')[2].classList.add('active');
+                document.getElementById('edit-tab').classList.add('active');
+            }
+        }
+
+        // Utility functions
+        function readFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = e => resolve(e.target.result);
+                reader.onerror = e => reject(e.target.error);
+                reader.readAsText(file);
+            });
+        }
+
+        function downloadFile(content, filename) {
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            if (currentTab === 'processor') {
+                document.getElementById('downloadBtn').disabled = false;
+            }
+        }
+
+        function showProgress(show) {
+            const progressBar = document.getElementById('progress');
+            if (show) {
+                progressBar.style.width = '50%';
+                setTimeout(() => {
+                    progressBar.style.width = '75%';
+                }, 500);
+            } else {
+                progressBar.style.width = '100%';
+                setTimeout(() => {
+                    progressBar.style.width = '0%';
+                }, 500);
+            }
+        }
+
+        function showStatus(message, type = 'info') {
+            if (currentTab === 'processor') {
+                const statusDiv = document.getElementById('status');
+                const icon = type === 'error' ? 'exclamation-circle' : 
+                            type === 'success' ? 'check-circle' : 'info-circle';
+                statusDiv.innerHTML = `<i class="fas fa-${icon}"></i> ${message}`;
+                statusDiv.className = `status ${type}`;
+            }
+        }
+
+        // ==================== TAB 1: PROCESSOR FUNCTIONS ====================
         async function searchKeyword() {
             const keyword = document.getElementById('searchKeyword').value;
-            if (!selectedFiles.length) {
+            const files = selectedFiles.processor;
+            
+            if (!files.length) {
                 showStatus('Please select files first!', 'error');
                 return;
             }
@@ -680,12 +814,11 @@
                 return;
             }
 
-            setButtonsEnabled(false);
             showProgress(true);
 
             try {
                 const results = [];
-                for (const file of selectedFiles) {
+                for (const file of files) {
                     const text = await readFile(file);
                     const lines = text.split('\n');
                     const matches = lines.filter(line => 
@@ -700,8 +833,6 @@
                     const filename = `found_${keyword}_${timestamp}.txt`;
                     
                     downloadFile(output, filename);
-                    outputPath = filename;
-                    
                     showStatus(`✓ Found ${results.length} lines!`, 'success');
                 } else {
                     showStatus('No lines found containing the keyword.', 'error');
@@ -709,14 +840,15 @@
             } catch (error) {
                 showStatus('Error: ' + error.message, 'error');
             } finally {
-                setButtonsEnabled(true);
                 showProgress(false);
             }
         }
 
         async function deleteKeyword() {
             const keyword = document.getElementById('deleteKeyword').value;
-            if (!selectedFiles.length) {
+            const files = selectedFiles.processor;
+            
+            if (!files.length) {
                 showStatus('Please select files first!', 'error');
                 return;
             }
@@ -725,13 +857,12 @@
                 return;
             }
 
-            setButtonsEnabled(false);
             showProgress(true);
 
             try {
                 let totalRemoved = 0;
                 
-                for (const file of selectedFiles) {
+                for (const file of files) {
                     const text = await readFile(file);
                     const lines = text.split('\n');
                     const filtered = lines.filter(line => 
@@ -749,13 +880,13 @@
             } catch (error) {
                 showStatus('Error: ' + error.message, 'error');
             } finally {
-                setButtonsEnabled(true);
                 showProgress(false);
             }
         }
 
         async function removeUrl() {
-            if (!selectedFiles.length) {
+            const files = selectedFiles.processor;
+            if (!files.length) {
                 showStatus('Please select files first!', 'error');
                 return;
             }
@@ -770,13 +901,12 @@
                 return;
             }
 
-            setButtonsEnabled(false);
             showProgress(true);
 
             try {
                 let totalChanged = 0;
                 
-                for (const file of selectedFiles) {
+                for (const file of files) {
                     const text = await readFile(file);
                     const lines = text.split('\n');
                     const processed = lines.map(line => {
@@ -820,7 +950,6 @@
             } catch (error) {
                 showStatus('Error: ' + error.message, 'error');
             } finally {
-                setButtonsEnabled(true);
                 showProgress(false);
             }
         }
@@ -829,7 +958,6 @@
             const variations = new Set();
             variations.add(url);
 
-            // Add variations with/without protocol
             if (url.startsWith('http://')) {
                 variations.add(url.substring(7));
                 variations.add('//' + url.substring(7));
@@ -844,14 +972,12 @@
                 variations.add('//' + url);
             }
 
-            // Add variations with/without www
             if (url.includes('www.')) {
                 variations.add(url.replace('www.', ''));
             } else if (!url.startsWith('www.')) {
                 variations.add('www.' + url.replace(/^https?:\/\//, ''));
             }
 
-            // Add variations with/without trailing slash
             if (url.endsWith('/')) {
                 variations.add(url.slice(0, -1));
             } else {
@@ -869,18 +995,18 @@
         }
 
         async function removeDuplicates() {
-            if (!selectedFiles.length) {
+            const files = selectedFiles.processor;
+            if (!files.length) {
                 showStatus('Please select files first!', 'error');
                 return;
             }
 
-            setButtonsEnabled(false);
             showProgress(true);
 
             try {
                 let totalRemoved = 0;
                 
-                for (const file of selectedFiles) {
+                for (const file of files) {
                     const text = await readFile(file);
                     const lines = text.split('\n');
                     const seen = new Set();
@@ -906,22 +1032,21 @@
             } catch (error) {
                 showStatus('Error: ' + error.message, 'error');
             } finally {
-                setButtonsEnabled(true);
                 showProgress(false);
             }
         }
 
         async function sortLines() {
-            if (!selectedFiles.length) {
+            const files = selectedFiles.processor;
+            if (!files.length) {
                 showStatus('Please select files first!', 'error');
                 return;
             }
 
-            setButtonsEnabled(false);
             showProgress(true);
 
             try {
-                for (const file of selectedFiles) {
+                for (const file of files) {
                     const text = await readFile(file);
                     const lines = text.split('\n')
                         .map(line => line.trim())
@@ -938,13 +1063,13 @@
             } catch (error) {
                 showStatus('Error: ' + error.message, 'error');
             } finally {
-                setButtonsEnabled(true);
                 showProgress(false);
             }
         }
 
         async function countLines() {
-            if (!selectedFiles.length) {
+            const files = selectedFiles.processor;
+            if (!files.length) {
                 showStatus('Please select files first!', 'error');
                 return;
             }
@@ -952,16 +1077,16 @@
             try {
                 let totalLines = 0;
                 
-                for (const file of selectedFiles) {
+                for (const file of files) {
                     const text = await readFile(file);
                     const lines = text.split('\n').filter(line => line.trim().length > 0);
                     totalLines += lines.length;
                 }
 
-                const avg = Math.round(totalLines / selectedFiles.length);
+                const avg = Math.round(totalLines / files.length);
                 
                 showStatus(
-                    `📊 Total files: ${selectedFiles.length} | Total lines: ${totalLines} | Average: ${avg}`,
+                    `📊 Total files: ${files.length} | Total lines: ${totalLines} | Average: ${avg}`,
                     'success'
                 );
             } catch (error) {
@@ -970,13 +1095,14 @@
         }
 
         async function previewFile() {
-            if (!selectedFiles.length) {
+            const files = selectedFiles.processor;
+            if (!files.length) {
                 showStatus('Please select a file first!', 'error');
                 return;
             }
 
             try {
-                const file = selectedFiles[0];
+                const file = files[0];
                 const text = await readFile(file);
                 const lines = text.split('\n').slice(0, 100);
                 const preview = lines.map((line, i) => `${(i+1).toString().padStart(6)}: ${line}`).join('\n');
@@ -990,134 +1116,7 @@
             }
         }
 
-        // Merge functions
-        function selectFilesForMerge() {
-            document.getElementById('fileInput').click();
-        }
-
-        function selectFolderForMerge() {
-            // Simulate folder selection by allowing multiple file selection
-            document.getElementById('fileInput').click();
-        }
-
-        function clearMergeList() {
-            selectedFiles = [];
-            document.getElementById('mergeFileList').innerHTML = '';
-            document.getElementById('fileCount').textContent = '0';
-            document.getElementById('totalLines').textContent = '0';
-            updateMergeStatus('File list cleared');
-        }
-
-        function updateMergeFileList() {
-            const listDiv = document.getElementById('mergeFileList');
-            listDiv.innerHTML = '';
-
-            selectedFiles.forEach((file, index) => {
-                const fileItem = document.createElement('div');
-                fileItem.className = 'file-item';
-                fileItem.innerHTML = `
-                    <span class="filename">${file.name}</span>
-                    <span class="file-info">(${(file.size / 1024).toFixed(2)} KB)</span>
-                `;
-                listDiv.appendChild(fileItem);
-            });
-        }
-
-        async function mergeFiles() {
-            if (selectedFiles.length < 2) {
-                updateMergeStatus('Please select at least 2 files to merge!', 'error');
-                return;
-            }
-
-            setButtonsEnabled(false);
-            showProgress(true);
-
-            try {
-                const removeDuplicates = document.getElementById('mergeRemoveDuplicates').checked;
-                const sortLines = document.getElementById('mergeSortLines').checked;
-                const removeEmpty = document.getElementById('mergeRemoveEmpty').checked;
-
-                let allLines = removeDuplicates ? new Set() : [];
-                let totalRead = 0;
-
-                for (const file of selectedFiles) {
-                    const text = await readFile(file);
-                    const lines = text.split('\n');
-                    
-                    for (const line of lines) {
-                        const trimmed = line.trim();
-                        
-                        if (removeEmpty && !trimmed) {
-                            continue;
-                        }
-                        
-                        if (removeDuplicates) {
-                            if (trimmed) {
-                                allLines.add(trimmed);
-                            }
-                        } else {
-                            allLines.push(trimmed || line);
-                        }
-                    }
-                    
-                    totalRead += lines.length;
-                }
-
-                let merged = removeDuplicates ? Array.from(allLines) : allLines;
-                
-                if (sortLines) {
-                    merged.sort();
-                }
-
-                const output = merged.join('\n');
-                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-                const filename = `merged_${timestamp}.txt`;
-                
-                downloadFile(output, filename);
-
-                const duplicatesRemoved = removeDuplicates ? totalRead - merged.length : 0;
-                
-                updateMergeStatus(
-                    `✓ Merged ${selectedFiles.length} files into ${merged.length} lines (${duplicatesRemoved} duplicates removed)`,
-                    'success'
-                );
-                
-                document.getElementById('totalLines').textContent = merged.length;
-            } catch (error) {
-                updateMergeStatus('Error: ' + error.message, 'error');
-            } finally {
-                setButtonsEnabled(true);
-                showProgress(false);
-            }
-        }
-
-        // Utility functions
-        function readFile(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = e => resolve(e.target.result);
-                reader.onerror = e => reject(e.target.error);
-                reader.readAsText(file);
-            });
-        }
-
-        function downloadFile(content, filename) {
-            const blob = new Blob([content], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            document.getElementById('downloadBtn').disabled = false;
-        }
-
         function downloadOutput() {
-            // This function is triggered by the download button
-            // The actual download happens in the processing functions
             showStatus('Files have been downloaded', 'success');
         }
 
@@ -1128,95 +1127,481 @@
             document.getElementById('exactMatch').checked = false;
             document.getElementById('removeAllUrls').checked = false;
             document.getElementById('smartHandling').checked = true;
-            selectedFiles = [];
-            document.getElementById('fileList').innerHTML = '';
-            updateFileCounter();
+            selectedFiles.processor = [];
+            updateFileList('processor');
+            updateFileCounter('processor');
             showStatus('All fields cleared');
         }
 
+        // ==================== TAB 2: EXTRACT CREDENTIALS ====================
+        function extractCredentials() {
+            const files = selectedFiles.extract;
+            if (!files.length) {
+                updateExtractStatus('Please select files first!', 'error');
+                return;
+            }
+
+            showProgress(true);
+            extractedData.credentials.clear();
+            extractedData.errors = [];
+
+            Promise.all(files.map(async file => {
+                const text = await readFile(file);
+                const lines = text.split('\n');
+                
+                lines.forEach(line => {
+                    processLineForExtraction(line);
+                });
+            })).then(() => {
+                const output = Array.from(extractedData.credentials).join('\n');
+                const errorOutput = extractedData.errors.join('\n');
+                
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                const outputFile = `extracted_${timestamp}.txt`;
+                const errorFile = `errors_${timestamp}.txt`;
+                
+                downloadFile(output, outputFile);
+                downloadFile(errorOutput, errorFile);
+                
+                document.getElementById('extractedCount').textContent = extractedData.credentials.size;
+                document.getElementById('errorCount').textContent = extractedData.errors.length;
+                
+                updateExtractStatus(`✓ Extracted ${extractedData.credentials.size} credentials, ${extractedData.errors.length} errors`, 'success');
+                showProgress(false);
+            }).catch(error => {
+                updateExtractStatus('Error: ' + error.message, 'error');
+                showProgress(false);
+            });
+        }
+
+        function processLineForExtraction(line) {
+            const originalLine = line;
+            line = line.trim();
+            
+            if (!line) return;
+
+            const extractUrlTriplets = document.getElementById('extractUrlTriplets').checked;
+            const extractHostTriplets = document.getElementById('extractHostTriplets').checked;
+            const extractInlinePairs = document.getElementById('extractInlinePairs').checked;
+            const filterGarena = document.getElementById('filterGarena').checked;
+            const skipPatterns = document.getElementById('skipPatterns').value.split(',').map(s => s.trim());
+
+            let credentials = [];
+
+            // Extract URL triplets (https://domain:user:pass)
+            if (extractUrlTriplets) {
+                const urlTriplets = line.match(/https?:\/\/[^\s:]+:([^:\s]+):([^\s]+)/g);
+                if (urlTriplets) {
+                    urlTriplets.forEach(triplet => {
+                        const match = triplet.match(/https?:\/\/[^\s:]+:([^:\s]+):([^\s]+)/);
+                        if (match) {
+                            const user = match[1].trim();
+                            const pass = match[2].trim().replace(/[\s/]+$/, '').replace(/\.+$/, '');
+                            if (user && pass) {
+                                credentials.push(`${user}:${pass}`);
+                            }
+                        }
+                    });
+                }
+            }
+
+            // Extract host triplets (domain:user:pass)
+            if (extractHostTriplets) {
+                const hostTriplets = line.match(/\b[^\s:]+\.[^\s:]+:([^:\s]+):([^\s]+)/g);
+                if (hostTriplets) {
+                    hostTriplets.forEach(triplet => {
+                        const match = triplet.match(/\b[^\s:]+\.[^\s:]+:([^:\s]+):([^\s]+)/);
+                        if (match) {
+                            const user = match[1].trim();
+                            const pass = match[2].trim().replace(/[\s/]+$/, '').replace(/\.+$/, '');
+                            if (user && pass) {
+                                credentials.push(`${user}:${pass}`);
+                            }
+                        }
+                    });
+                }
+            }
+
+            // Extract inline pairs (user:pass after URL)
+            if (extractInlinePairs) {
+                const tokens = line.split(/\s+/);
+                tokens.forEach(token => {
+                    if (!token.startsWith('http') && !token.startsWith('www.')) {
+                        const match = token.match(/^([^:]+):([^:]+)$/);
+                        if (match) {
+                            const user = match[1].trim();
+                            const pass = match[2].trim().replace(/[\s/]+$/, '').replace(/\.+$/, '');
+                            if (user && pass) {
+                                credentials.push(`${user}:${pass}`);
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Filter credentials
+            if (filterGarena) {
+                credentials = credentials.filter(cred => 
+                    !skipPatterns.some(pattern => cred.toLowerCase().includes(pattern.toLowerCase()))
+                );
+            }
+
+            // Filter by length
+            credentials = credentials.filter(cred => cred.length <= 50);
+
+            if (credentials.length > 0) {
+                credentials.forEach(cred => extractedData.credentials.add(cred));
+            } else {
+                extractedData.errors.push(originalLine);
+            }
+        }
+
+        function updateExtractStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('extractStatus');
+            const icon = type === 'error' ? 'exclamation-circle' : 
+                        type === 'success' ? 'check-circle' : 'info-circle';
+            statusDiv.innerHTML = `<i class="fas fa-${icon}"></i> ${message}`;
+            statusDiv.className = `status ${type}`;
+        }
+
+        // ==================== TAB 3: EDIT PASSWORDS ====================
+        function toggleEditMode() {
+            const mode = document.querySelector('input[name="editMode"]:checked').value;
+            const standardOptions = document.getElementById('standardOptions');
+            standardOptions.style.display = mode === 'standard' ? 'block' : 'none';
+        }
+
+        function onlyLetters(s) {
+            return s.replace(/[^a-zA-Z]/g, '');
+        }
+
+        function onlyDigits(s) {
+            return s.replace(/[^0-9]/g, '');
+        }
+
+        function capFirst(word) {
+            return word.length > 0 ? word[0].toUpperCase() + word.slice(1) : word;
+        }
+
+        function capFirstAlpha(s) {
+            for (let i = 0; i < s.length; i++) {
+                if (s[i].match(/[a-zA-Z]/)) {
+                    return s.slice(0, i) + s[i].toUpperCase() + s.slice(i + 1);
+                }
+            }
+            return s;
+        }
+
+        function alnumLen(s) {
+            return (s.match(/[a-zA-Z0-9]/g) || []).length;
+        }
+
+        function synthesisTransform(user, rawPass) {
+            const lettersPass = onlyLetters(rawPass);
+            const digitsPass = onlyDigits(rawPass);
+            const lettersUser = onlyLetters(user);
+            const digitsUser = onlyDigits(user);
+            
+            if (!lettersPass) return null;
+            
+            // Rule 5: If pass has many digits (>4), keep last 3 digits
+            if (digitsPass.length > 4) {
+                return `${capFirst(lettersPass)}${digitsPass.slice(-3)}`;
+            }
+            
+            // Rule 1: Check for year 1900-2050 in pass
+            if (digitsPass.length === 4) {
+                const year = parseInt(digitsPass);
+                if (year >= 1900 && year <= 2050) {
+                    return `${capFirst(lettersPass)}@${year}`;
+                }
+            }
+            
+            if (!digitsUser) return capFirst(lettersPass);
+            
+            // Rule 2: User has 2 digits -> double them
+            if (digitsUser.length === 2) {
+                return `${capFirst(lettersPass)}${digitsUser}${digitsUser}`;
+            }
+            
+            // Rule 3: User has 3 digits -> add @
+            if (digitsUser.length === 3) {
+                return `${capFirst(lettersPass)}${digitsUser}@`;
+            }
+            
+            // Rule 4: User has 4 digits (not 1900-2050) -> reverse
+            if (digitsUser.length === 4) {
+                const year = parseInt(digitsUser);
+                if (!(year >= 1900 && year <= 2050)) {
+                    const reversed = digitsUser.split('').reverse().join('');
+                    return `${lettersUser}${digitsUser}${reversed}`;
+                } else {
+                    return `${capFirst(lettersPass)}@${year}`;
+                }
+            }
+            
+            return `${capFirst(lettersPass)}${digitsUser}`;
+        }
+
+        function profiledTransform(user, rawPass) {
+            const lettersPass = onlyLetters(rawPass);
+            const digitsPass = onlyDigits(rawPass);
+            const lettersUser = onlyLetters(user);
+            const digitsUser = onlyDigits(user);
+
+            let letters = lettersPass || lettersUser;
+            if (!letters) return null;
+            
+            if (letters.length < 2 && lettersUser) {
+                letters = (letters + lettersUser).slice(0, 2);
+            }
+            if (letters.length < 2) return null;
+            if (letters.length > 10) letters = letters.slice(0, 10);
+
+            let digits = digitsPass || digitsUser;
+            if (!digits) return null;
+
+            let digits4;
+            if (digits.length >= 4) {
+                digits4 = digits.slice(-4);
+            } else {
+                const pool = digits + digitsUser;
+                digits4 = (pool.repeat(4)).slice(-4);
+            }
+
+            return `${capFirst(letters)}${digits4}`;
+        }
+
+        function transformPassword(user, rawPass, mode, separatorPos, separator) {
+            const simpleMode = mode === 'simple';
+            const userdigitsMode = mode === 'userdigits';
+            const limit4Mode = mode === 'limit4';
+            const synthesisMode = mode === 'synthesis';
+            const profiledMode = mode === 'profiled';
+            const majorityMode = mode === 'majority';
+
+            // Majority Mode
+            if (majorityMode) {
+                const lettersUser = onlyLetters(user);
+                const digitsUser = onlyDigits(user);
+                const hasLetter = /[a-zA-Z]/.test(rawPass);
+                const hasDigit = /\d/.test(rawPass);
+                const alnumCount = alnumLen(rawPass);
+
+                if (hasLetter && hasDigit) {
+                    if (alnumCount >= 6) {
+                        return capFirstAlpha(rawPass);
+                    }
+                    if (digitsUser) {
+                        const need = Math.max(0, 6 - alnumCount);
+                        const padded = rawPass + digitsUser.slice(0, need);
+                        return capFirstAlpha(padded);
+                    }
+                    return null;
+                }
+
+                if (hasLetter && !hasDigit) {
+                    if (!digitsUser) return null;
+                    const baseLetters = onlyLetters(rawPass);
+                    if (!baseLetters) return null;
+                    return `${capFirst(baseLetters)}${digitsUser}`;
+                }
+
+                if (hasDigit && !hasLetter) {
+                    if (!lettersUser) return null;
+                    return `${capFirst(lettersUser)}${rawPass}`;
+                }
+
+                return null;
+            }
+
+            // Synthesis Mode
+            if (synthesisMode) {
+                return synthesisTransform(user, rawPass);
+            }
+
+            // Profiled Mode
+            if (profiledMode) {
+                return profiledTransform(user, rawPass);
+            }
+
+            // Simple Mode
+            if (simpleMode) {
+                const letters = onlyLetters(rawPass);
+                if (!letters) return null;
+                return `${capFirst(letters)}@123`;
+            }
+
+            // User Digits Mode
+            if (userdigitsMode) {
+                const letters = onlyLetters(rawPass);
+                if (!letters) return null;
+                const uDigits = onlyDigits(user);
+                if (!uDigits) return null;
+                return `${capFirst(letters)}${uDigits}@`;
+            }
+
+            // Limit 4 Digits Mode
+            if (limit4Mode) {
+                if (rawPass[0] && rawPass[0].match(/[A-Z]/)) return null;
+                
+                let digitsSeen = 0;
+                let kept = [];
+                for (let ch of rawPass) {
+                    if (ch.match(/\d/)) {
+                        if (digitsSeen >= 4) continue;
+                        digitsSeen++;
+                    }
+                    kept.push(ch);
+                }
+                let result = kept.join('');
+                if (!result) return null;
+                
+                if (result[0].match(/[a-zA-Z]/)) {
+                    result = result[0].toUpperCase() + result.slice(1);
+                }
+                return result;
+            }
+
+            // Standard Mode
+            const uLetters = onlyLetters(user);
+            const uDigits = onlyDigits(user);
+            const pLetters = onlyLetters(rawPass);
+            let pDigits = onlyDigits(rawPass);
+
+            if (pLetters && !pDigits) {
+                if (!uDigits) return null;
+                pDigits = uDigits;
+            }
+
+            if (pDigits && !pLetters) {
+                if (!uLetters) return null;
+                pLetters = uLetters;
+            }
+
+            if (!pLetters || !pDigits) return null;
+
+            const lettersCap = capFirst(pLetters);
+            if (separatorPos === 'middle') {
+                return `${lettersCap}${separator}${pDigits}`;
+            } else {
+                return `${lettersCap}${pDigits}${separator}`;
+            }
+        }
+
+        async function editPasswords() {
+            const files = selectedFiles.edit;
+            if (!files.length) {
+                updateEditStatus('Please select files first!', 'error');
+                return;
+            }
+
+            const mode = document.querySelector('input[name="editMode"]:checked').value;
+            const delimiter = document.getElementById('delimiter').value || ':';
+            const separator = document.getElementById('separator').value || '@';
+            const separatorPos = document.querySelector('input[name="separatorPos"]:checked').value;
+            const maxAlnum = parseInt(document.getElementById('maxAlnum').value) || 35;
+
+            showProgress(true);
+            editStats = { processed: 0, edited: 0, skipped: 0 };
+            const seenLines = new Set();
+            let output = '';
+
+            try {
+                for (const file of files) {
+                    const text = await readFile(file);
+                    const lines = text.split('\n');
+                    
+                    lines.forEach(line => {
+                        editStats.processed++;
+                        const s = line.trim();
+                        
+                        // Skip invalid lines
+                        const low = s.toLowerCase();
+                        if (low.includes('unknown') || low.includes('not_saved')) {
+                            editStats.skipped++;
+                            return;
+                        }
+                        
+                        if (!s) return;
+
+                        if (s.includes(delimiter)) {
+                            const [user, rawPass] = s.split(delimiter, 2).map(part => part.trim());
+                            
+                            const newPass = transformPassword(user, rawPass, mode, separatorPos, separator);
+                            
+                            if (newPass) {
+                                const outLine = `${user}${delimiter}${newPass}`;
+                                
+                                if (outLine === s) {
+                                    editStats.skipped++;
+                                    return;
+                                }
+                                
+                                if (seenLines.has(outLine)) {
+                                    editStats.skipped++;
+                                    return;
+                                }
+                                
+                                if (alnumLen(user) < 6 || alnumLen(newPass) < 6) {
+                                    editStats.skipped++;
+                                    return;
+                                }
+                                
+                                if (alnumLen(outLine) > maxAlnum) {
+                                    editStats.skipped++;
+                                    return;
+                                }
+                                
+                                output += outLine + '\n';
+                                seenLines.add(outLine);
+                                editStats.edited++;
+                            } else {
+                                editStats.skipped++;
+                            }
+                        } else {
+                            editStats.skipped++;
+                        }
+                    });
+                }
+
+                if (output) {
+                    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                    const filename = files.length === 1 ? 
+                        `${files[0].name.replace('.txt', '')}_edited_${timestamp}.txt` :
+                        `all_edited_${timestamp}.txt`;
+                    
+                    downloadFile(output, filename);
+                    
+                    document.getElementById('processedCount').textContent = editStats.processed;
+                    document.getElementById('editedCount').textContent = editStats.edited;
+                    document.getElementById('skippedCount').textContent = editStats.skipped;
+                    
+                    updateEditStatus(`✓ Processed: ${editStats.processed} | Edited: ${editStats.edited} | Skipped: ${editStats.skipped}`, 'success');
+                } else {
+                    updateEditStatus('No valid lines to edit', 'error');
+                }
+            } catch (error) {
+                updateEditStatus('Error: ' + error.message, 'error');
+            } finally {
+                showProgress(false);
+            }
+        }
+
+        function updateEditStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('editStatus');
+            const icon = type === 'error' ? 'exclamation-circle' : 
+                        type === 'success' ? 'check-circle' : 'info-circle';
+            statusDiv.innerHTML = `<i class="fas fa-${icon}"></i> ${message}`;
+            statusDiv.className = `status ${type}`;
+        }
+
+        // Modal
         function closeModal() {
             document.getElementById('previewModal').classList.remove('active');
         }
 
-        function switchTab(tab) {
-            currentTab = tab;
-            
-            // Update tab buttons
-            document.querySelectorAll('.tab-btn').forEach((btn, index) => {
-                if (index === 0 && tab === 'processing') {
-                    btn.classList.add('active');
-                } else if (index === 1 && tab === 'merge') {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
-            
-            // Update tab content
-            document.getElementById('processing-tab').classList.toggle('active', tab === 'processing');
-            document.getElementById('merge-tab').classList.toggle('active', tab === 'merge');
-        }
-
-        function showStatus(message, type = 'info') {
-            const statusDiv = document.getElementById('status');
-            const icon = type === 'error' ? 'exclamation-circle' : 
-                        type === 'success' ? 'check-circle' : 'info-circle';
-            
-            statusDiv.innerHTML = `<i class="fas fa-${icon}"></i> ${message}`;
-            statusDiv.className = `status ${type}`;
-        }
-
-        function updateMergeStatus(message, type = 'info') {
-            const statusDiv = document.getElementById('mergeStatus');
-            const icon = type === 'error' ? 'exclamation-circle' : 
-                        type === 'success' ? 'check-circle' : 'info-circle';
-            
-            statusDiv.innerHTML = `<i class="fas fa-${icon}"></i> ${message}`;
-            statusDiv.className = `status ${type}`;
-        }
-
-        function setButtonsEnabled(enabled) {
-            const buttons = document.querySelectorAll('.btn:not([disabled])');
-            buttons.forEach(btn => {
-                btn.disabled = !enabled;
-            });
-        }
-
-        function showProgress(show) {
-            const progressBar = document.getElementById('progress');
-            if (show) {
-                progressBar.style.width = '50%';
-                setTimeout(() => {
-                    progressBar.style.width = '75%';
-                }, 500);
-            } else {
-                progressBar.style.width = '100%';
-                setTimeout(() => {
-                    progressBar.style.width = '0%';
-                }, 500);
-            }
-        }
-
         // Event listeners
-        document.getElementById('fileInput').addEventListener('change', (e) => {
-            if (currentTab === 'merge') {
-                selectedFiles = Array.from(e.target.files);
-                updateMergeFileList();
-                
-                // Update stats
-                document.getElementById('fileCount').textContent = selectedFiles.length;
-                
-                // Count total lines
-                let total = 0;
-                selectedFiles.forEach(file => {
-                    readFile(file).then(text => {
-                        total += text.split('\n').length;
-                        document.getElementById('totalLines').textContent = total;
-                    });
-                });
-            }
-        });
-
         document.getElementById('removeAllUrls').addEventListener('change', function() {
             if (this.checked) {
                 document.getElementById('exactMatch').checked = false;
@@ -1236,6 +1621,7 @@
 
         // Initialize
         document.getElementById('downloadBtn').disabled = true;
+        document.getElementById('standardOptions').style.display = 'block';
     </script>
 </body>
 </html>
